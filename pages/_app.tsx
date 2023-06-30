@@ -1,26 +1,30 @@
 import '../styles/App.css'
 import type { AppProps } from 'next/app'
-import React, {useState} from 'react';
+import React, {KeyboardEventHandler, useState} from 'react';
 import Head from 'next/head'
+import {ChangeEvent} from 'react'
+import { Elsie_Swash_Caps } from 'next/font/google';
 
 export default function App({ Component, pageProps }: AppProps) {
+  
   interface Task{
     id: number;
     name: string;
+    complete: boolean;
   }
+
   const [list, setList]=useState<Task[]>([]);
   const [input, setInput]=useState("");
-
- 
+  const [isEditing, setEditing]=useState(false);
   
   function addTask(name: string){
     if(name===""){
-      setInput("Please input a task");
       return;
     }
     const newTask: Task={
       id: list.length+1,
       name: name,
+      complete: false
     };
     setList(list => [...list,newTask]);
     setInput("");
@@ -30,14 +34,30 @@ export default function App({ Component, pageProps }: AppProps) {
     setList([]);
   }
 
+  function toggleCheck(){
+    const button = document.getElementById("checkButton");
+    button.classList.toggle("checked");
+  }
+
   function deleteTask(id: number){
     const updatedList=list.filter(task=> task.id !== id);
     setList(updatedList);
   }
 
-  function editTask(name: string){
-    
+  function editTask(id: number, newName: string){
+    setInput("New task name");
+    list[id].name= newName;
+  }
 
+  function handleInput(event: React.KeyboardEvent<HTMLInputElement>, edit: boolean){
+    if(event.key==="Enter"){
+      const inputValue=event.currentTarget.value;
+      if(edit===true){
+      
+      }else{
+        addTask(inputValue);
+      }
+    }
   }
 
   return (
@@ -47,12 +67,13 @@ export default function App({ Component, pageProps }: AppProps) {
     </Head>
     <div>
       <div className="App">
-    <h1>To-Do List</h1>
+    <h1 className="title">To-Do List</h1>
     <input 
       type="text"
       value={input}
       placeholder="What is your new task?"
       onChange={(e)=>setInput(e.target.value)}
+      onKeyDown={(e) => handleInput(e,isEditing)}
       />
     
     <div className="button-container">
@@ -69,7 +90,10 @@ export default function App({ Component, pageProps }: AppProps) {
           <li key={task.id}>
             {task.name}
             <button onClick={() =>  deleteTask(task.id)}>&times;</button>
-            <button> Edit</button>
+            <button onClick={() =>  {setEditing(true); editTask(task.id);}}> Edit</button>
+            <button id="checkButton" className="checkButton" onClick={() =>toggleCheck()}>
+              <span className="checkmark">&#10004;</span>
+            </button>
           </li>
         ))}
       </ul>

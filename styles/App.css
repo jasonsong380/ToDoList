@@ -2,12 +2,37 @@
   text-align: center;
 }
 
+ul{
+  list-style-type: none;
+  padding: 0;
+  color: white;
+}
+
 .App-body{
   text-align: center;
 }
 
-title{
+.title{
   color: white;
+  font-family: cursive;
+}
+
+.checkButton{
+  background-color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.checkButton.checkmark{
+  font-size: 410px;
+  padding: 0;
+  display: inline-block;
+  line-height: 0;
+}
+
+.checkButton.checked{
+  background-color: white;
+  color: green;
 }
 
 .button-container{
@@ -31,6 +56,9 @@ html, body{
   width: 100%;
   height: 100%;
   min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 input::placeholder{
