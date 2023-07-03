@@ -9,14 +9,15 @@ export default function Main({ Component, pageProps }: AppProps) {
   }
   const [list, setList] = useState<Task[]>([]);
   const [input, setInput] = useState("");
+  const [count, setCount] = useState(0);
 
   function addTask(name: string) {
     if (name === "") {
-      setInput("Please input a task");
       return;
     }
+    setCount(count+1);
     const newTask: Task = {
-      id: list.length + 1,
+      id: count,
       name: name,
     };
     setList((list) => [...list, newTask]);
