@@ -16,13 +16,15 @@ export default function App({ Component, pageProps }: AppProps) {
   const [list, setList]=useState<Task[]>([]);
   const [input, setInput]=useState("");
   const [isEditing, setEditing]=useState(false);
+  const [count, setCount]=useState(0);
   
   function addTask(name: string){
     if(name===""){
       return;
     }
+    setCount(count+1);
     const newTask: Task={
-      id: list.length+1,
+      id: count,
       name: name,
       complete: false
     };
