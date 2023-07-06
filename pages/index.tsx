@@ -79,64 +79,66 @@ export default function App({ Component, pageProps }: AppProps) {
   }
 
   return (
-    <div className="container">
-      <Head>
-        <title>To-Do List</title>
-      </Head>
-      <div>
-        <div className="App">
-          <h1 className="title">To-Do List</h1>
-          <input
-            type="text"
-            value={input}
-            placeholder="What is your new task?"
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => handleInput(e, false, undefined)}
-          />
+    <>
+      <div className="container">
+        <Head>
+          <title>To-Do List</title>
+        </Head>
+        <div>
+          <div className="App">
+            <h1 className="title">To-Do List</h1>
+            <input
+              type="text"
+              value={input}
+              placeholder="What is your new task?"
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => handleInput(e, false, undefined)}
+            />
 
-          <div className="button-container">
-            <button className="button" onClick={() => addTask(input)}>Add Task</button>
-            <button className="button" onClick={() => clearTasks()}>Clear All</button>
+            <div className="button-container">
+              <button className="button" onClick={() => addTask(input)}>Add Task</button>
+              <button className="button" onClick={() => clearTasks()}>Clear All</button>
+            </div>
+
+
+
           </div>
-
-
-
-        </div>
-        <div className="App-body">
-          <ul>
-            {list.map((task) => (
-              <li key={task.id}>
-                {editingTaskID === task.id ? (
-                  <input
-                    type="text"
-                    value={editInput}
-                    onChange={(e) => setEditInput(e.target.value)}
-                    onBlur={() => setEditingTaskID(undefined)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        handleInput(e, true, task.id);
-                        setEditingTaskID(undefined);
+          <div className="App-body">
+            <ul>
+              {list.map((task) => (
+                <li key={task.id}>
+                  {editingTaskID === task.id ? (
+                    <input
+                      type="text"
+                      value={editInput}
+                      onChange={(e) => setEditInput(e.target.value)}
+                      onBlur={() => setEditingTaskID(undefined)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          handleInput(e, true, task.id);
+                          setEditingTaskID(undefined);
+                        }
                       }
-                    }
-                    }
-                  />
-                ) : (
-                  <span>{task.name}</span>
-                )}
-                <button onClick={() => deleteTask(task.id)}>&times;</button>
-                <button onClick={() => { setEditingTaskID(task.id); setEditInput(task.name); }}> Edit</button>
-                <button id="checkButton"
-                  className="checkButton"
-                  onClick={() => toggleCheck(task.id)}
-                  style={{ color: task.complete ? 'green' : 'black' }}
-                >
-                  <span className="checkmark">&#10004;</span>
-                </button>
-              </li>
-            ))}
-          </ul>
+                      }
+                    />
+                  ) : (
+                    <span>{task.name}</span>
+                  )}
+                  <button onClick={() => deleteTask(task.id)}>&times;</button>
+                  <button onClick={() => { setEditingTaskID(task.id); setEditInput(task.name); }}> Edit</button>
+                  <button id="checkButton"
+                    className="checkButton"
+                    onClick={() => toggleCheck(task.id)}
+                    style={{ color: task.complete ? 'green' : 'black' }}
+                  >
+                    <span className="checkmark">&#10004;</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
