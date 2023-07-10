@@ -68,17 +68,23 @@ export default function App({ Component, pageProps }: AppProps) {
     setList(updatedList);
   }
 
-  function handleInput(event: React.KeyboardEvent<HTMLInputElement>, edit: boolean, id: number | undefined) {
+  function handleAddInput(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === "Enter") {
       const inputValue = event.currentTarget.value;
-      if (edit && editingTaskID !== undefined) {
+      addTask(inputValue);
+    }
+  }
+
+  function handleEditInput(event: React.KeyboardEvent<HTMLInputElement>, id: number | undefined){
+    if (event.key === "Enter") {
+      const inputValue = event.currentTarget.value;
+      if (editingTaskID !== undefined) {
         editTask(editingTaskID, inputValue);
-      } else {
-        addTask(inputValue);
+        setEditingTaskID(undefined);
       }
     }
-    setEditingTaskID(undefined);
   }
+
 
   function TaskList(taskName: string) {
     const filteredTasks = list.filter(task => task.name === taskName);
@@ -104,7 +110,7 @@ export default function App({ Component, pageProps }: AppProps) {
             value={input}
             placeholder="What is your new task?"
             onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => handleInput(e, false, undefined)}
+            onKeyDown={(e) => handleAddInput(e)}
           />
 
           <div className="button-container">
@@ -112,10 +118,8 @@ export default function App({ Component, pageProps }: AppProps) {
             <button className="button" onClick={() => clearTasks()}>Clear All</button>
             <button className="button" onClick={() => }>Search</button>
           </div>
-
-
-
         </div>
+
         <div className="App-body">
           <ul>
             {list.map((task) => (
@@ -128,8 +132,7 @@ export default function App({ Component, pageProps }: AppProps) {
                     onBlur={() => setEditingTaskID(undefined)}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter') {
-                        handleInput(e, true, task.id);
-                        setEditingTaskID(undefined);
+                        handleEditInput(e, task.id);
                       }
                     }
                     }
