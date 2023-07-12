@@ -13,7 +13,7 @@ ul{
 }
 
 .title{
-  color: white;
+  color: whitesmoke;
   font-family: cursive;
 }
 
@@ -47,7 +47,7 @@ html, body{
 }
 
 .container{
-  background-image: url(https://www.weho.org/home/showpublishedimage/13258/637019945098600000);
+  background-image: url(https://wallpapercave.com/wp/wp6419835.jpg);
   background-size: cover;
   position: fixed;
   top: 0;
